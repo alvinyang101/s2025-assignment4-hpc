@@ -5,6 +5,8 @@ from typing import Type
 
 import torch
 
+from cs336_systems.triton_rmsnorm import RMSNormPyTorch, RMSNormTriton, rmsnorm_backward_g, rmsnorm_backward_x
+
 
 def get_rmsnorm_autograd_function_pytorch() -> Type:
     """
@@ -16,7 +18,7 @@ def get_rmsnorm_autograd_function_pytorch() -> Type:
         A class object (not an instance of the class)
     """
     # For example: return MyRMSNormAutogradFunctionClass
-    raise NotImplementedError
+    return RMSNormPyTorch
 
 
 def get_rmsnorm_autograd_function_triton() -> Type:
@@ -32,7 +34,7 @@ def get_rmsnorm_autograd_function_triton() -> Type:
         A class object (not an instance of the class)
     """
     # For example: return MyTritonRMSNormAutogradFunctionClass
-    raise NotImplementedError
+    return RMSNormTriton
 
 
 def rmsnorm_backward_g_pytorch(
@@ -53,7 +55,7 @@ def rmsnorm_backward_g_pytorch(
     Returns:
         Gradient of the loss with respect to g. Shape: (H,)
     """
-    raise NotImplementedError
+    return rmsnorm_backward_g(grad_output, x, g)
 
 
 def rmsnorm_backward_x_pytorch(
@@ -74,7 +76,7 @@ def rmsnorm_backward_x_pytorch(
     Returns:
         Gradient of the loss with respect to x. Shape: (*, H)
     """
-    raise NotImplementedError
+    return rmsnorm_backward_x(grad_output, x, g)
 
 
 def get_ddp_individual_parameters(module: torch.nn.Module) -> torch.nn.Module:
